@@ -1,3 +1,14 @@
+# Build output
+build/
+.pio/
+*.bin
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
 # Prerequisites
 *.d
 
