@@ -10,13 +10,13 @@
 // Changes: Added startTime variable for more accurate measuring
 
 // ================ Macros ================
-#define LEDR_PIN 7
+#define LEDW_PIN 7
 
 void setup() {
  // ================> TODO:
  // Set a pin as output
- pinMode(LEDR_PIN, OUTPUT);
- digitalWrite(LEDR_PIN, LOW);
+ pinMode(LEDW_PIN, OUTPUT);
+ digitalWrite(LEDW_PIN, LOW);
  Serial.begin(9600); //V2, needed to see serial output. Make sure Tools -> USB CDC on Boot is set to "Enable" to see serial monitor output
 }
 
@@ -30,8 +30,8 @@ void loop() {
  // 1 second delay
  unsigned long startTime = micros(); //V3, measures time from right before we run the LED toggling loop
  for (int i = 0; i < 1000; i++) {
-  digitalWrite(LEDR_PIN, HIGH);
-  digitalWrite(LEDR_PIN, LOW);
+  digitalWrite(LEDW_PIN, HIGH);
+  digitalWrite(LEDW_PIN, LOW);
  }
  Serial.print("Time: ");
  Serial.println(micros() - startTime); //This was consistently 1084 after initial start values

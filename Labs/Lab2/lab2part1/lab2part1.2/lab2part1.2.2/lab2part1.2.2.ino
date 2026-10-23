@@ -1,15 +1,29 @@
+// Filename: lab2part1.2.2.ino
+// Author: Ephraim Tran & Benjamin Hoang
+// Date: 10/22/2026
+// Description: This file controls an external LED, making it turn on and off
+//              1000 times using register manipulation and measuring how long it takes
+
+//Version 2.0
+// Author: Ephraim Tran & Benjamin Hoang
+// Date: 10/22/2026
+// Changes: Added includes so the register access code worked
+
+// ================ Includes ================
 #include "driver/gpio.h"
 #include "soc/io_mux_reg.h"
 #include "soc/gpio_reg.h"
 #include "soc/gpio_periph.h"
-#define LEDR_PIN 15
+
+// ================ Macros ================
+#define LEDW_PIN 15
 
 void setup() {
  // ================> TODO:
  // Set a pin as output
-  PIN_FUNC_SELECT(GPIO_PIN_MUX_REG[LEDR_PIN], PIN_FUNC_GPIO);
-  *((volatile uint32_t *)GPIO_ENABLE_REG) |= (1 << LEDR_PIN);
-  Serial.begin(9600);
+  PIN_FUNC_SELECT(GPIO_PIN_MUX_REG[LEDW_PIN], PIN_FUNC_GPIO);
+  *((volatile uint32_t *)GPIO_ENABLE_REG) |= (1 << LEDW_PIN);
+  Serial.begin(9600); //Make sure Tools -> USB CDC on Boot is set to "Enable" to see serial monitor output
 }
 
 void loop() {
@@ -22,7 +36,7 @@ void loop() {
  // 1 second delay
  unsigned long startTime = micros();
  for (int i = 0; i < 1000; i++) {
-  *((volatile uint32_t *)GPIO_OUT_REG) |= (1 << LEDR_PIN);
+  *((volatile uint32_t *)GPIO_OUT_REG) |= (1 << LEDW_PIN);
   *((volatile uint32_t *)GPIO_OUT_REG) &= (0);
  }
  Serial.print("Time: ");
