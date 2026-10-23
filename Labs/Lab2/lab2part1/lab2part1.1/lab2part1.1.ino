@@ -2,6 +2,7 @@
 // Author: Ephraim Tran & Benjamin Hoang
 // Date: 10/22/2026
 // Description: This file controls an external LED, making turn on and off in one second intervals
+// Version 1.0
 
 // ============== Includes ================
 #include "driver/gpio.h"
