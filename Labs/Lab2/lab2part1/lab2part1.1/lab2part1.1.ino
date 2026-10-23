@@ -1,8 +1,17 @@
+// Filename: lab2part1.1.ino
+// Author: Ephraim Tran & Benjamin Hoang
+// Date: 10/22/2026
+// Description: This file controls an external LED, making turn on and off in one second intervals
+
+// ============== Includes ================
 #include "driver/gpio.h"
 #include "soc/io_mux_reg.h"
 #include "soc/gpio_reg.h"
 #include "soc/gpio_periph.h"
+
+// ============== Macros ================
 #define GPIO_PIN 5 // GPIO5
+
 void setup() {
  // This predefined macro sets the functionality of a specified pin (to UART, SPI, 
  // GPIO, etc). Here we are setting pin 5 to be a general purpose input/output 
