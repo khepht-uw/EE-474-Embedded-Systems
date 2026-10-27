@@ -1,7 +1,8 @@
 // Filename: lab2part3.ino
 // Author: Ephraim Tran & Benjamin Hoang
 // Date: 10/23/2026
-// Description: This file... TODO
+// Description:  Uses a photoresistor voltage divider and the ADC to read room light,
+//              then adjusts an LED's brightness with LEDC PWM (less light = brighter LED)
 
 //Version 1.0
 // Author: Ephraim Tran & Benjamin Hoang
@@ -11,8 +12,8 @@
 // ================ Includes ================
 
 // ================ Macros ================
-#define LEDY_PIN 38
-#define P_RES 21
+#define LEDY_PIN 9
+#define P_RES 11
 #define freq 1000
 #define read_max 4095
 
@@ -38,10 +39,9 @@ void loop() {
                 //This ranges from 0 to 4095 depending on the microcontroller.
                 //Represents the analog signal's intensity.
   //Less light = more res, more light = less res
-  uint8_t out = 255 * (1 - (level/read_max));
+  uint8_t out = 255 * (1.0 - (float)level / read_max); // scale the analog input value to a duty cycle value, cast into float to avoid integer division
 
   ledcWrite(LEDY_PIN, out);
   Serial.println(level);
   Serial.println(out);
-  delay(500);
 }
