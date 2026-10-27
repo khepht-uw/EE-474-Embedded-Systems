@@ -19,7 +19,7 @@
 
 void setup() {
   // put your setup code here, to run once:
-  ledcAttach(LEDY_PIN, freq, 8);  //Configures the PWM signal on the specified GPIO pin.
+  ledcAttach(BUZZER_PIN, freq, 8);  //Configures the PWM signal on the specified GPIO pin.
                                     //pin: GPIO pin number to output the PWM signal.
                                     //freq: Frequency of the PWM signal in Hertz.
                                     //res: Resolution of the PWM signal (1-14 bits).
@@ -34,13 +34,27 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  uint16_t level = analogRead(P_RES);  //reads V on analog input pin, returns digital value corresponding to that V
-                //This ranges from 0 to 4095 depending on the microcontroller.
-                //Represents the analog signal's intensity.
-  //Less light = more res, more light = less res
-  uint8_t out = 255 * (1.0 - (float)level / read_max); // scale the analog input value to a duty cycle value, cast into float to avoid integer division
+  // uint16_t level = analogRead(P_RES);  //reads V on analog input pin, returns digital value corresponding to that V
+  //               //This ranges from 0 to 4095 depending on the microcontroller.
+  //               //Represents the analog signal's intensity.
+  // //Less light = more res, more light = less res
 
-  ledcWrite(LEDY_PIN, out);
-  Serial.println(level);
-  Serial.println(out);
+  // if(level < 2000){
+
+
+
+  // }else{
+  //   ledcWrite(BUZZER_PIN, 0);
+
+  // }
+    // ledcWrite(BUZZER_PIN, 0);
+     //delay(1000);
+    //  ledcWrite(BUZZER_PIN, 255);
+    //  delay(1000);
+    // ledcWrite(BUZZER_PIN, 0);
+    //  delay(1000);
+    ledcWrite(BUZZER_PIN, 100);
+     delay(1000);
+
+
 }
