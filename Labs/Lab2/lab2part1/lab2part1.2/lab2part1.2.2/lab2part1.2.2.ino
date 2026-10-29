@@ -39,7 +39,7 @@ void loop() {
   *((volatile uint32_t *)GPIO_OUT_REG) |= (1 << LEDW_PIN);
   *((volatile uint32_t *)GPIO_OUT_REG) &= (0);
  }
- Serial.print("Time: ");
+ Serial.print("Time: ");  //303 us
  Serial.println(micros() - startTime);
  delay(1000);
 }

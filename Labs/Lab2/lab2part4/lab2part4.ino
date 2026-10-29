@@ -57,30 +57,30 @@ void loop() {
   static bool done = false;         // true after one full run, blocks restart until light returns
   static int segment = 0;           // which frequency is active (0 = none), only change once per segment
 
-  if(level < threshold){
+  if (level < threshold) {
 
-    if(!started && !done){              // just got dark, start the timer once
+    if (!started && !done) {              // just got dark, start the timer once
       last_on_time = current_time;
       started = true;
     }
 
-    if(started){
+    if (started){
       if ((current_time - last_on_time) < SEGMENT_INTERVAL) { // 1st second
-        if(segment != 1) {               // only change when the segment changes
+        if (segment != 1) {               // only change when the segment changes
           ledcChangeFrequency(BUZZER_PIN, 500, resolution); // FREQ OF 500HZ
           ledcWrite(BUZZER_PIN, 125);
           segment = 1;
         }
 
-      } else if((current_time - last_on_time) < SEGMENT_INTERVAL * 2) { // 2nd second
-        if(segment != 2) {
+      } else if ((current_time - last_on_time) < SEGMENT_INTERVAL * 2) { // 2nd second
+        if (segment != 2) {
           ledcChangeFrequency(BUZZER_PIN, 1000, resolution); // FREQ OF 1000HZ
           ledcWrite(BUZZER_PIN, 125);
           segment = 2;
         }
 
-      } else if((current_time - last_on_time) < SEGMENT_INTERVAL * 3){ // 3rd second
-        if(segment != 3){
+      } else if ((current_time - last_on_time) < SEGMENT_INTERVAL * 3){ // 3rd second
+        if (segment != 3){
           ledcChangeFrequency(BUZZER_PIN, 1500, resolution);  //FREQ OF 1500HZ
           ledcWrite(BUZZER_PIN, 125);
           segment = 3;
