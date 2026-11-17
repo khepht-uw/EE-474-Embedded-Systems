@@ -32,6 +32,7 @@ const uint8_t MODE_CMD  = 0;
 const uint8_t MODE_DATA = BIT_RS;
 const uint8_t CMD_CLEAR = 0x01;  // clear the screen
 const uint8_t CMD_LINE1 = 0x80;  // set cursor to start of line 1
+const uint8_t CMD_LINE2 = 0xC0;
 
 void setup() {
  Serial.begin(115200);
@@ -52,7 +53,7 @@ void pulseEnable(uint8_t value) {
   writeExpander(value | BIT_EN);  // Enable on
   delay(1);
   writeExpander(value & ~BIT_EN); // Enable off
-  delay(5)
+  delay(5);
 }
 
 void writeNibble(uint8_t nibble, bool isData) {
