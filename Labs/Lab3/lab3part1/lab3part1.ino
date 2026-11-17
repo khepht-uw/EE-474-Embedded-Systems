@@ -1,8 +1,8 @@
 // Filename: lab3part1.ino
 // Author: Ephraim Tran & Benjamin Hoang
 // Date: 11/9/2026
-// Description: 
-//              
+// Description: Takes the input typed in from the serial monitor and displays it on
+// the LCD using the I2C protocol to communicate.           
 
 // Version 1.0
 // Author: Ephraim Tran & Benjamin Hoang
@@ -41,33 +41,53 @@ void setup() {
  delay(2);
 }
 
+// Name: writeExpander
+// Description: Writes the value to the expander with the backlight bit set
+// Parameters: value - the value to add the backlight bit to
+// Returns: nothing
 void writeExpander(uint8_t value) {
-  Wire.beginTransmission(LCD_ADDRESS);  // Start I2C transmission to the LCD
-  Wire.write(value | BIT_BL);           // Send the value to the LCD with backlight on 
-  Wire.endTransmission();               // End I2C transmission
+  Wire.beginTransmission(LCD_ADDRESS);
+  Wire.write(value | BIT_BL);
+  Wire.endTransmission();
 }
 
-// Write the value to the expander with the enable bit set
-// then clear it after a short delay so it latches the value into the LCD
+// Name: pulseEnable
+// Description: Writes the value to the expander with the enable bit set
+// then clears it after a short delay so it latches the value into the LCD
+// Parameters: value - the value to write to the expander
+// Returns: nothing
 void pulseEnable(uint8_t value) {
-  writeExpander(value | BIT_EN);  // Enable on
+  writeExpander(value | BIT_EN);
   delay(1);
-  writeExpander(value & ~BIT_EN); // Enable off
+  writeExpander(value & ~BIT_EN);
   delay(5);
 }
 
+// Name: writeNibble
+// Description: Adds the RS bit to a 4-bit nibble if it's classified as data
+// (or leaves it alone if it's a command) and pulses EN so the LCD latches it.
+// Parameters: nibble - data in the upper 4 bits;
+//             isData - true for a character, false for a command
+// Returns: nothing
 void writeNibble(uint8_t nibble, bool isData) {
-  uint8_t value = nibble | (isData ? MODE_DATA : MODE_CMD); // if it's a data command
-                                                            // use RS = 1, else use 0
+  uint8_t value = nibble | (isData ? MODE_DATA : MODE_CMD);
   pulseEnable(value);
 }
 
+// Name: sendLcdByte
+// Description: Sends a byte to the LCD by sending the upper nibble first, then the lower nibble
+// Parameters: value - the byte to send;
+//             isData - true for a character, false for a command
+// Returns: nothing
 void sendLcdByte(uint8_t value, bool isData) {
   writeNibble(value & 0xF0, isData); // turn last 4 bits to 0's, so just send char's first half
   writeNibble((value << 4) & 0xF0, isData); // shift 4 bits to the left, then turn last 4 bits
-                                            // to 0 to send second half of char
+//                                             to 0 to send second half of char
 }
-
+// Name: sendLcdCommand
+// Description: Sends a command to the LCD and gives a delay if the command is to clear the screen
+// Parameters: command - the command to send
+// Returns: nothing
 void sendLcdCommand(uint8_t command) {
   sendLcdByte(command, false); // isData set to false because we are sending a command
   if (command == CMD_CLEAR) { // give a little delay for display to clear its screen
@@ -75,15 +95,18 @@ void sendLcdCommand(uint8_t command) {
   }
 }
 
+//Name: displaySerialLine
+//Description: Displays the string passed in to the LCD, clearing the screen first
+//Parameters: line - the string to display
+//Returns: nothing
 void displaySerialLine(String line) {
   sendLcdCommand(CMD_CLEAR);
   sendLcdCommand(CMD_LINE1);
-
   for (uint8_t index = 0;
-       index < line.length() && index < LCD_COLUMNS * LCD_ROWS;
-       index++) { // increment per character from line
-    if (index == LCD_COLUMNS) { // if the index reaches the last column, go to next row
-      sendLcdCommand(CMD_LINE2);
+      index < line.length() && index < LCD_COLUMNS * LCD_ROWS;
+      index++) {
+    if (index == LCD_COLUMNS) {   // If the index reaches the last column,
+      sendLcdCommand(CMD_LINE2);  // go to next row
     }
     sendLcdByte(line[index], true);
   }
@@ -93,11 +116,8 @@ void loop() {
  // ====================> TODO:
  // Write code that takes Serial input and displays it to the LCD. Do NOT use any 
  // functions from the LiquidCrystal I2C library here.
-    if (Serial.available() > 0) { // if there is text in the serial monitor
+  if (Serial.available() > 0) { // if there is text in the serial monitor
     String line = Serial.readStringUntil('\n');
-    if (line.endsWith("\r")) { // remove the extra character when user presses return on keyboard
-      line.remove(line.length() - 1);
-    }
     displaySerialLine(line);
   }
 }
