@@ -18,10 +18,10 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Initialize the LCD
 void setup() {
- Serial.begin(115200);
- Wire.begin(SDA_PIN, SCL_PIN);
- lcd.init();
- delay(2);
+  Serial.begin(115200);
+  Wire.begin(SDA_PIN, SCL_PIN);
+  lcd.init();
+  delay(2);
 }
 
 void loop() {

@@ -49,8 +49,11 @@ struct TCB {
 };
 
 LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS); // Initialize the LCD
-// 
 
+// Name: ledBlinker
+// Description: Blinks the external LED 8 times (1 s on, 1 s off).
+// Parameters: none
+// Returns: nothing
 void ledBlinker() {
   for (int i = 0; i < 8; i++) {
     digitalWrite(LED_PIN, HIGH);
@@ -60,6 +63,10 @@ void ledBlinker() {
   }
 }
 
+// Name: counterTask
+// Description: Counts 1 to 10 on the LCD, one number per second.
+// Parameters: none
+// Returns: nothing
 void counterTask() {
   for (int i = 1; i <= 10; i++) {
     lcd.clear();
@@ -69,9 +76,13 @@ void counterTask() {
   lcd.clear();
 }
 
+// Name: printAlphabet
+// Description: Prints A-Z to Serial (and mirrors it on the LCD).
+// Parameters: none
+// Returns: nothing
 void printAlphabet() {
   for (char c = 'A'; c <= 'Z'; c++) {
-    if (c == 'A' + 16){
+    if (c == 'A' + 16){ // line 1 is full after 16 characters, so move to line 2
         lcd.setCursor(0, 1);
     }
     lcd.print(c);
@@ -79,17 +90,21 @@ void printAlphabet() {
     Serial.print(' ');
     delay(350);
   }
-  lcd.clear();
+  lcd.clear(); // before returning, clear the LCD so the next task can use it
   Serial.println();
 }
 
+// Name: buzzerTask
+// Description: Plays 10 notes on the buzzer; LED brightness scales with pitch.
+// Parameters: none
+// Returns: nothing
 void buzzerTask() {
   int notes[] = {260, 588, 392, 880, 1320, 1976, 1480, 1108, 784, 524};
   //             C4   D5   G4   A5   E6    B6    F#6   C#6   G5   C5
   ledcWrite(BUZZER_PIN, 128); // set duty cycle to 50% to make sound audible
   for (int i = 0; i < 10; i++) {
     ledcChangeFrequency(BUZZER_PIN, notes[i], resolution);
-    uint8_t out = 255 * ((float)notes[i] / 494);
+    uint8_t out = 255 * ((float)notes[i] / 1976); // scale LED brightness with pitch (1976 Hz is the highest note)
     ledcWrite(LED_2_PIN, out);
     delay(500);
   }
@@ -97,6 +112,9 @@ void buzzerTask() {
   ledcWrite(LED_2_PIN, 0); // turn off LED
 }
 
+// Name: tasks
+// Description: TCB array: {function, priority, done flag, name}.
+//              Higher priority runs first; priorities rotate each cycle.
 TCB tasks[4] = {
   {ledBlinker, 4, false, "LED Blinker"},
   {counterTask, 3, false, "Counter"},
@@ -110,20 +128,11 @@ void setup() {
   Wire.begin(SDA_PIN, SCL_PIN);
   lcd.init();
   lcd.backlight();
-  // delay(2);
   pinMode(LED_PIN, OUTPUT);
   ledcAttach(BUZZER_PIN, freq, resolution); // attach once; change frequency later with ledcChangeFrequency
   ledcWrite(BUZZER_PIN, 0);    
   ledcAttach(LED_2_PIN, freq, resolution);
 }
-
-
-// struct TCB {
-//   void (*func)();   // which function to run
-//   int priority;     // how important it is right now
-//   bool done;        // has it run this cycle?
-//   const char* name; // task name for printing
-// };
 
 void loop() {
   // Find the not-done task with the highest priority
