@@ -1,12 +1,12 @@
 // Filename: lab3part3.ino
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Description: Displays a 1-second counter on an LCD, interrupted by
 //              button presses and BLE writes.
 
 // Version 1.0
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Changes: 
 
 //INCLUDES

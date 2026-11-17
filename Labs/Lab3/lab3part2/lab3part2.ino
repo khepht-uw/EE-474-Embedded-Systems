@@ -1,6 +1,6 @@
 // Filename: lab3part2.ino
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Description: This program is designed to simultaneously control an LED blinker, a counter on
 // an I2C LCD screen, a buzzer with a note display, and an alphabet printer in the serial monitor.
 // This is accomplished through Task Control Blocks that manage the execution of tasks based
@@ -8,7 +8,7 @@
 
 //Version 1.0
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Changes: 
 
 //INCLUDES

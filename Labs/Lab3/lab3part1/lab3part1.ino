@@ -1,12 +1,12 @@
 // Filename: lab3part1.ino
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Description: Takes the input typed in from the serial monitor and displays it on
 // the LCD using the I2C protocol to communicate.           
 
 // Version 1.0
 // Author: Ephraim Tran & Benjamin Hoang
-// Date: 11/9/2026
+// Date: 11/17/2026
 // Changes: 
 
 //INCLUDES

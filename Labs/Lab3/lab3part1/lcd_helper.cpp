@@ -48,7 +48,6 @@ void sendLcdByte(uint8_t value, bool isData) {
 // Returns: nothing
 void sendLcdCommand(uint8_t command) {
     sendLcdByte(command, false);
-
     if (command == CMD_CLEAR) {
         delay(2);
     }
